@@ -10,6 +10,6 @@ namespace Server.Models
         public string NameServer { get; set; }
         public string NameSection { get; set; }
         public string City { get; set; }
-        public bool Location { get; set; }
+        public string Location { get; set; }
     }
 }

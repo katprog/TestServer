@@ -16,16 +16,12 @@ namespace Server.Controllers
             TodoServers = todoServer;
         }
    
-        // GET api/values
         [HttpGet]
         public IEnumerable<TodoServer> GetAll()
         {
-            // return new string[] { "value1", "value2" };
             var allServers = TodoServers.GetAll();
             return allServers;
-
         }
-
 
         [HttpGet("{id}", Name = "GetTodo")]
         public IActionResult GetById(string id)
@@ -38,34 +34,26 @@ namespace Server.Controllers
             return new ObjectResult(server);
         }
 
-
-        [HttpPost]
-        public IActionResult Create([FromBody] TodoServer server)
+        [HttpPut("{id}")]
+        public IActionResult Update(string id, [FromBody] TodoServer server)
         {
-            if (server == null)
+            if (server == null || server.NameServer != id)
             {
                 return BadRequest();
             }
-            TodoServers.Add(server);
+
+            var todo = TodoServers.Find(id);
+            if (todo == null)
+            {
+                TodoServers.Add(server);
+                //return Ok();
+                return CreatedAtRoute("GetTodo", new { id = server.NameServer }, server);
+            }
+            TodoServers.Update(server);
+            //return Ok();
             return CreatedAtRoute("GetTodo", new { id = server.NameServer }, server);
         }
 
-        //// POST api/values
-        //[HttpPost]
-        //public void Post([FromBody]string value)
-        //{
-        //}
 
-        //// PUT api/values/5
-        //[HttpPut("{id}")]
-        //public void Put(int id, [FromBody]string value)
-        //{
-        //}
-
-        //// DELETE api/values/5
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
     }
 }

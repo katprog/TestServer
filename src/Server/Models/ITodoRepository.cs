@@ -10,7 +10,6 @@ namespace Server.Models
         void Add(TodoServer server);
         IEnumerable<TodoServer> GetAll();
         TodoServer Find(string name);
-        TodoServer Remove(string name);
         void Update(TodoServer server);
     }
 }

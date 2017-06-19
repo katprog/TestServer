@@ -3,19 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
+using Server.Models;
 
-namespace Server.Models
+namespace Server.Repository
 {
-    public class TodoRepository: ITodoRepository
+    public interface IServerRepository
+    {
+        void Add(TodoServer server);
+        IEnumerable<TodoServer> GetAll();
+        TodoServer Find(string name);
+        void Update(TodoServer server);
+    }
+
+    public class ServerRepository : IServerRepository
     {
         private static ConcurrentDictionary<string, TodoServer> _server =
-              new ConcurrentDictionary<string, TodoServer>();
+        new ConcurrentDictionary<string, TodoServer>();
 
-        public TodoRepository()
+        public ServerRepository()
         {
             Add(new TodoServer
             {
-                NameServer = "Server1",
+                NameServer = "Server1", // Section
                 Name = "Name1",
                 City = "City1",
                 Location = "Location1"
@@ -31,7 +40,6 @@ namespace Server.Models
         public void Add(TodoServer server)
         {
             //server.NameServer = Guid.NewGuid().ToString();
-            //_server[server.NameServer] = server;
             _server[server.NameServer] = server;
         }
 
@@ -46,6 +54,5 @@ namespace Server.Models
         {
             _server[server.NameServer] = server;
         }
-
     }
 }

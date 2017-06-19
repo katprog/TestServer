@@ -8,7 +8,7 @@ namespace Server.Models
     public class TodoServer
     {
         public string NameServer { get; set; }
-        public string NameSection { get; set; }
+        public string Name { get; set; }
         public string City { get; set; }
         public string Location { get; set; }
     }

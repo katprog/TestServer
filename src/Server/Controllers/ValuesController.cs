@@ -24,15 +24,15 @@ namespace Server.Controllers
             return new JsonResult(allServers);
         }
 
-        [HttpGet("{id}", Name = "GetTodo")]
+        [HttpGet("{id}", Name = "GetServer")]
         public IActionResult GetById(string id)
         {
-            var server = ServerInfoRep.Find(id);
-            if (server == null)
+            var serverInfo = ServerInfoRep.Find(id);
+            if (serverInfo == null)
             {
                 return NotFound();
             }
-            return new ObjectResult(server);
+            return new ObjectResult(serverInfo);
         }
 
         [HttpPut("{id}")]
@@ -48,15 +48,13 @@ namespace Server.Controllers
             if (ServerInfoRep.Find(id) == null)
             {
                 ServerInfoRep.Add(serverInfo);
-                return CreatedAtRoute("GetTodo", new { id = serverInfo.Section}, serverInfo);
+                return CreatedAtRoute("GetServer", new { id = serverInfo.Section}, serverInfo);
                 //return Ok();
             }
 
             ServerInfoRep.Update(serverInfo);
-            return CreatedAtRoute("GetTodo", new { id = serverInfo.Section }, serverInfo);
+            return CreatedAtRoute("GetServer", new { id = serverInfo.Section }, serverInfo);
             //return Ok();
         }
-
-
     }
 }

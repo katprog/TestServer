@@ -8,6 +8,6 @@ namespace Server.Models
     public class ServerSection
     {
         public string Section { get; set; }
-        public Info info { get; set; }
+        public ServerInfo Info { get; set; }
     }
 }

@@ -36,7 +36,7 @@ namespace Server.Controllers
         }
 
         [HttpPut("{id}/Info")]
-        public IActionResult Update(string id, [FromBody] Info info)
+        public IActionResult Update(string id, [FromBody] ServerInfo info)
         {
             if (info == null || id == null)
             {
@@ -45,7 +45,7 @@ namespace Server.Controllers
 
             ServerSection serverInfo = new ServerSection();
             serverInfo.Section = id;
-            serverInfo.info = info;
+            serverInfo.Info = info;
 
             if (ServerInfoRep.Find(id) == null)
             {

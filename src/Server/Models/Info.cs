@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Server.Models
 {
-    public class Info
+    public class ServerInfo
     {
         public string Name { get; set; }
         public string City { get; set; }

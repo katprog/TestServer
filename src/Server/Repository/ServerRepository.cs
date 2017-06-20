@@ -9,10 +9,10 @@ namespace Server.Repository
 {
     public interface IServerRepository
     {
-        void Add(ServerSection serverInfo);
+        void Add(ServerSection serverSection);
         IEnumerable<ServerSection> GetAll();
-        Info Find(string section);
-        void Update(ServerSection serverInfo);
+        ServerInfo Find(string section);
+        void Update(ServerSection serverSection);
     }
 
     public class ServerRepository : IServerRepository
@@ -25,7 +25,7 @@ namespace Server.Repository
             Add(new ServerSection
             {
                 Section = "GIS", 
-                info = new Info
+                Info = new ServerInfo
                 {         
                     Name = "Geoinformation Systems",
                     City = "Tomsk",
@@ -44,7 +44,7 @@ namespace Server.Repository
             ServersInfoContainer[serverSection.Section] = serverSection;
         }
 
-        public Info Find(string Section)
+        public ServerInfo Find(string Section)
         {
             ServerSection serverSection;
             ServersInfoContainer.TryGetValue(Section, out serverSection);
@@ -52,7 +52,7 @@ namespace Server.Repository
             {
                 return null;
             }
-            return serverSection.info;
+            return serverSection.Info;
         }
 
         public void Update(ServerSection serverSection)

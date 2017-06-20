@@ -9,48 +9,55 @@ namespace Server.Repository
 {
     public interface IServerRepository
     {
-        void Add(ServerInfo serverInfo);
-        IEnumerable<ServerInfo> GetAll();
-        ServerInfo Find(string section);
-        void Update(ServerInfo serverInfo);
+        void Add(ServerSection serverInfo);
+        IEnumerable<ServerSection> GetAll();
+        Info Find(string section);
+        void Update(ServerSection serverInfo);
     }
 
     public class ServerRepository : IServerRepository
     {
-        private static ConcurrentDictionary<string, ServerInfo> ServersInfoContainer =
-        new ConcurrentDictionary<string, ServerInfo>();
+        private static ConcurrentDictionary<string, ServerSection> ServersInfoContainer =
+        new ConcurrentDictionary<string, ServerSection>();
 
         public ServerRepository()
         {
-            Add(new ServerInfo
+            Add(new ServerSection
             {
-                Section = "Section", 
-                Name = "Name1",
-                City = "City1",
-                Location = "Location1"
+                Section = "GIS", 
+                info = new Info
+                {         
+                    Name = "Geoinformation Systems",
+                    City = "Tomsk",
+                    Location = "Lenina, 2, 404"
+                }
             });
         }
 
-        public IEnumerable<ServerInfo> GetAll()
+        public IEnumerable<ServerSection> GetAll()
         {
             return ServersInfoContainer.Values;
         }
 
-        public void Add(ServerInfo serverInfo)
+        public void Add(ServerSection serverSection)
         {
-            ServersInfoContainer[serverInfo.Section] = serverInfo;
+            ServersInfoContainer[serverSection.Section] = serverSection;
         }
 
-        public ServerInfo Find(string Section)
+        public Info Find(string Section)
         {
-            ServerInfo serverInfo;
-            ServersInfoContainer.TryGetValue(Section, out serverInfo);
-            return serverInfo;
+            ServerSection serverSection;
+            ServersInfoContainer.TryGetValue(Section, out serverSection);
+            if (serverSection == null)
+            {
+                return null;
+            }
+            return serverSection.info;
         }
 
-        public void Update(ServerInfo serverInfo)
+        public void Update(ServerSection serverSection)
         {
-            ServersInfoContainer[serverInfo.Section] = serverInfo;
+            ServersInfoContainer[serverSection.Section] = serverSection;
         }
     }
 }

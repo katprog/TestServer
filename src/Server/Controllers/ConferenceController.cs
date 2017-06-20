@@ -9,22 +9,22 @@ using Server.Repository;
 namespace Server.Controllers
 {
     [Route("api/[controller]")]
-    public class ValuesController : Controller
+    public class ConferenceController : Controller
     {
         public IServerRepository ServerInfoRep { get; set; }
-        public ValuesController(IServerRepository serverInfoRep)
+        public ConferenceController(IServerRepository serverInfoRep)
         {
             ServerInfoRep = serverInfoRep;
         }
 
-        [HttpGet]
+        [HttpGet("Info")]
         public IActionResult GetAll()
         {
             var allServers = ServerInfoRep.GetAll();
             return new JsonResult(allServers);
         }
 
-        [HttpGet("{id}", Name = "GetServer")]
+        [HttpGet("{id}/Info")]
         public IActionResult GetById(string id)
         {
             var serverInfo = ServerInfoRep.Find(id);
@@ -35,26 +35,26 @@ namespace Server.Controllers
             return new ObjectResult(serverInfo);
         }
 
-        [HttpPut("{id}")]
-        public IActionResult Update(string id, [FromBody] ServerInfo serverInfo)
+        [HttpPut("{id}/Info")]
+        public IActionResult Update(string id, [FromBody] Info info)
         {
-            if (serverInfo == null || id == null)
+            if (info == null || id == null)
             {
                 return BadRequest();
             }
 
+            ServerSection serverInfo = new ServerSection();
             serverInfo.Section = id;
+            serverInfo.info = info;
 
             if (ServerInfoRep.Find(id) == null)
             {
                 ServerInfoRep.Add(serverInfo);
-                return CreatedAtRoute("GetServer", new { id = serverInfo.Section}, serverInfo);
-                //return Ok();
+                return Ok();
             }
 
             ServerInfoRep.Update(serverInfo);
-            return CreatedAtRoute("GetServer", new { id = serverInfo.Section }, serverInfo);
-            //return Ok();
+            return Ok();
         }
     }
 }

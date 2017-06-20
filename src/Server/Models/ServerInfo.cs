@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace Server.Models
 {
-    public class TodoServer
+    public class ServerInfo
     {
-        public string NameServer { get; set; }
+        public string Section { get; set; }
         public string Name { get; set; }
         public string City { get; set; }
         public string Location { get; set; }

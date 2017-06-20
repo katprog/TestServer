@@ -4,29 +4,30 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Server.Models;
+using Server.Repository;
 
 namespace Server.Controllers
 {
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
-        public ITodoRepository TodoServers { get; set; }
-        public ValuesController(ITodoRepository todoServer)
+        public IServerRepository ServerInfoRep { get; set; }
+        public ValuesController(IServerRepository serverInfoRep)
         {
-            TodoServers = todoServer;
+            ServerInfoRep = serverInfoRep;
         }
    
         [HttpGet]
-        public IEnumerable<TodoServer> GetAll()
+        public IEnumerable<ServerInfo> GetAll()
         {
-            var allServers = TodoServers.GetAll();
+            var allServers = ServerInfoRep.GetAll();
             return allServers;
         }
 
         [HttpGet("{id}", Name = "GetTodo")]
         public IActionResult GetById(string id)
         {
-            var server = TodoServers.Find(id);
+            var server = ServerInfoRep.Find(id);
             if (server == null)
             {
                 return NotFound();
@@ -35,23 +36,25 @@ namespace Server.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(string id, [FromBody] TodoServer server)
+        public IActionResult Update(string id, [FromBody] ServerInfo serverInfo)
         {
-            if (server == null || server.NameServer != id)
+            if (serverInfo == null || id == null)
             {
                 return BadRequest();
             }
 
-            var todo = TodoServers.Find(id);
-            if (todo == null)
+            serverInfo.Section = id;
+
+            if (ServerInfoRep.Find(id) == null)
             {
-                TodoServers.Add(server);
+                ServerInfoRep.Add(serverInfo);
+                return CreatedAtRoute("GetTodo", new { id = serverInfo.Section}, serverInfo);
                 //return Ok();
-                return CreatedAtRoute("GetTodo", new { id = server.NameServer }, server);
             }
-            TodoServers.Update(server);
+
+            ServerInfoRep.Update(serverInfo);
+            return CreatedAtRoute("GetTodo", new { id = serverInfo.Section }, serverInfo);
             //return Ok();
-            return CreatedAtRoute("GetTodo", new { id = server.NameServer }, server);
         }
 
 

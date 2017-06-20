@@ -9,50 +9,48 @@ namespace Server.Repository
 {
     public interface IServerRepository
     {
-        void Add(TodoServer server);
-        IEnumerable<TodoServer> GetAll();
-        TodoServer Find(string name);
-        void Update(TodoServer server);
+        void Add(ServerInfo serverInfo);
+        IEnumerable<ServerInfo> GetAll();
+        ServerInfo Find(string section);
+        void Update(ServerInfo serverInfo);
     }
 
     public class ServerRepository : IServerRepository
     {
-        private static ConcurrentDictionary<string, TodoServer> _server =
-        new ConcurrentDictionary<string, TodoServer>();
+        private static ConcurrentDictionary<string, ServerInfo> ServersInfoContainer =
+        new ConcurrentDictionary<string, ServerInfo>();
 
         public ServerRepository()
         {
-            Add(new TodoServer
+            Add(new ServerInfo
             {
-                NameServer = "Server1", // Section
+                Section = "Section", 
                 Name = "Name1",
                 City = "City1",
                 Location = "Location1"
-
             });
         }
 
-        public IEnumerable<TodoServer> GetAll()
+        public IEnumerable<ServerInfo> GetAll()
         {
-            return _server.Values;
+            return ServersInfoContainer.Values;
         }
 
-        public void Add(TodoServer server)
+        public void Add(ServerInfo serverInfo)
         {
-            //server.NameServer = Guid.NewGuid().ToString();
-            _server[server.NameServer] = server;
+            ServersInfoContainer[serverInfo.Section] = serverInfo;
         }
 
-        public TodoServer Find(string nameServer)
+        public ServerInfo Find(string Section)
         {
-            TodoServer server;
-            _server.TryGetValue(nameServer, out server);
-            return server;
+            ServerInfo serverInfo;
+            ServersInfoContainer.TryGetValue(Section, out serverInfo);
+            return serverInfo;
         }
 
-        public void Update(TodoServer server)
+        public void Update(ServerInfo serverInfo)
         {
-            _server[server.NameServer] = server;
+            ServersInfoContainer[serverInfo.Section] = serverInfo;
         }
     }
 }

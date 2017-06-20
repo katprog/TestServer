@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Server.Repository;
 using Server.Models;
 
 namespace Server
@@ -40,7 +41,7 @@ namespace Server
 
             services.AddMvc();
 
-            services.AddSingleton<ITodoRepository, TodoRepository>();
+            services.AddSingleton<IServerRepository, ServerRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline

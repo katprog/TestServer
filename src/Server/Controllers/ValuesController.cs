@@ -16,12 +16,12 @@ namespace Server.Controllers
         {
             ServerInfoRep = serverInfoRep;
         }
-   
+
         [HttpGet]
-        public IEnumerable<ServerInfo> GetAll()
+        public IActionResult GetAll()
         {
             var allServers = ServerInfoRep.GetAll();
-            return allServers;
+            return new JsonResult(allServers);
         }
 
         [HttpGet("{id}", Name = "GetTodo")]
